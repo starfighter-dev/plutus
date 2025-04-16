@@ -40,9 +40,9 @@
           <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Accounts<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="names">Names</a></li>
-                <li><a href="of">Of</a></li>
-                <li><a href="accounts">Accounts</a></li>
+               {foreach from=$ACCOUNTS item=$v}
+                <li><a href="{$v}">{$v|ucfirst}</a></li>
+               {/foreach}
               </ul>
             </li>
            {/if}

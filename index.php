@@ -7,7 +7,7 @@
    if ( $account === '' ) {
       $account = 'admin';
    }
-   if ( !preg_match('/^(names|of|your|accounts)$/', $account)) {
+   if ( $account !== 'admin' && !in_array($account, ACCOUNTS) ) {
       header('Location: https://www.google.com/');
       exit;
    }
@@ -20,9 +20,13 @@
    $dbh->exec("set names utf8"); // TODO bad?
 
    if ( $account === 'admin' ) {
+      $smarty->assign('ACCOUNTS', ACCOUNTS);
       if ( isset($_POST['password']) ) {
-         if ( $_POST['username'] === 'admin' && $_POST['password'] === 'donkeyrules' ) {
-            $_SESSION['logged_in'] = 1;
+         foreach ( ADMINS as $v ) {
+            if ( $_POST['username'] === $v[0] && $_POST['password'] === $v[1] ) {
+               $_SESSION['logged_in'] = 1;
+               break;
+            }
          }
       }
 
@@ -39,7 +43,7 @@
             $stmt->bindValue('descr', $descr, PDO::PARAM_STR);
             $stmt->bindValue('amount', $amount, PDO::PARAM_STR);
             $stmt->execute();
-            $smarty->assign('success', "YEP");
+            $smarty->assign('success', "Transaction Added!");
          } else {
          }
          $smarty->assign('account', ucfirst($account));
@@ -120,14 +124,7 @@
    $smarty->assign('total_spending', $total_spending);
    $smarty->assign('allowance', $allowance);
    $smarty->assign('allowance_frequency', $allowance_frequency);
-
-   $now  = new DateTime();
-   $then = new DateTime('2019-07-19 00:00:00');
-   if ( $now > $then && $account !== 'alex' ) {
-      $smarty->assign('currency', '£');
-   } else {
-      $smarty->assign('currency', '$');
-   }
+   $smarty->assign('currency', '£');
 
    $smarty->assign('balance', sprintf("%.2f", $balance));
    $smarty->assign('transactions', $transactions);

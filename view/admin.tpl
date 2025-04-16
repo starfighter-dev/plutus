@@ -22,9 +22,9 @@
   <div class="form-group">
     <label for="account">Account</label>
     <select class="form-control" id="account" name="account">
-      <option value="names">Names</option>
-      <option value="of">Of</option>
-      <option value="accounts">Accounts</option>
+      {foreach from=$ACCOUNTS item=$v}
+      <option value="{$v}">{$v|ucfirst}</option>
+      {/foreach}
     </select>
   </div>
   <div class="form-group">

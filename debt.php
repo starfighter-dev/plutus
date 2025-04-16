@@ -12,6 +12,7 @@
    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $dbh->exec("set names utf8"); // TODO bad?
 
+   // TODO pull this from env
    $emails = [
       'account1' => 'anemail@test.com',
       'account2' => 'anemail@test.com',
